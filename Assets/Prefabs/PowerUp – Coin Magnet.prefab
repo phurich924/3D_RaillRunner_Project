@@ -112,12 +112,24 @@ PrefabInstance:
       value: SM_PolygonPrototype_Icon_Arrow_Small_01
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b9979013b18adc147ac208c3520b982e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.42910668
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b9979013b18adc147ac208c3520b982e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.42910668
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b9979013b18adc147ac208c3520b982e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.42910668
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b9979013b18adc147ac208c3520b982e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.38887
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b9979013b18adc147ac208c3520b982e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.80848
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b9979013b18adc147ac208c3520b982e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -151,6 +163,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: b9979013b18adc147ac208c3520b982e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0da271346b430f34a9d11a4c7d49a447, type: 2}
+    - target: {fileID: 3300000, guid: b9979013b18adc147ac208c3520b982e, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 5036211334292771574, guid: 24423a42e5b7d9645a51e6dabb7c8db1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

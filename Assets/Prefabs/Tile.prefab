@@ -123,9 +123,9 @@ MonoBehaviour:
   - {fileID: 2780670907961109174, guid: f357cea6be2d9a946a86014b279dce45, type: 3}
   - {fileID: 2780670907961109174, guid: 2b7f609138698924aa68e52889077ec8, type: 3}
   boxcoinPrefab: {fileID: 3339597093697794309, guid: cf36a54f0c6c36e4ea3a8ef32bfe9044, type: 3}
-  obstaclePercent: 30
-  powerUpPercent: 10
-  coinPercent: 50
+  obstaclePercent: 15
+  powerUpPercent: 15
+  coinPercent: 55
   boxcoinPercent: 15
 --- !u!1 &4073172228178669828
 GameObject:
