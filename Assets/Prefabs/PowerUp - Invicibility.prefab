@@ -54,8 +54,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5, y: 5, z: 5}
-  m_Center: {x: 1.47, y: -1.14, z: 5}
+  m_Size: {x: 0.6, y: 0.6, z: 0.6}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &631925041696433728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +70,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScriptPowerUp
   type: 0
   rotateSpeed: 60
+  bobHeight: 0.15
+  bobSpeed: 0
 --- !u!54 &5900856216997385204
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -148,6 +150,14 @@ PrefabInstance:
     - target: {fileID: 4901645553587172, guid: f0371e756e6017b4c84e42073506be40, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64269701047241750, guid: f0371e756e6017b4c84e42073506be40, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64269701047241750, guid: f0371e756e6017b4c84e42073506be40, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

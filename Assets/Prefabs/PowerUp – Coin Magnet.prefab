@@ -54,8 +54,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6, y: 0.6, z: 0.25}
-  m_Center: {x: 0, y: 0.32, z: 0}
+  m_Size: {x: 0.4, y: 0.6, z: 0.3}
+  m_Center: {x: 0.39, y: 0, z: 1.22}
 --- !u!114 &631925041696433728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +70,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScriptPowerUp
   type: 1
   rotateSpeed: 60
+  bobHeight: 0.15
+  bobSpeed: 0
 --- !u!54 &2633965106070307455
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,9 +1,10 @@
+
 using UnityEngine;
 
 public static class GameConstants
 {
-    public const int LaneCount = 5;
-    public const float LaneWidth = 1f;
+    public const int LaneCount = 3;
+    public const float LaneWidth = 2.5f;
 
     public static float LaneToX(int laneIndex)
     {

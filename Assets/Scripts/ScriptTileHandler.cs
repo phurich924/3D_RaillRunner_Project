@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class ScriptTileHandler : MonoBehaviour
@@ -6,11 +7,13 @@ public class ScriptTileHandler : MonoBehaviour
     public GameObject[] ObstaclePrefab;
     public GameObject coinPrefab;
     public GameObject[] PowerUpPrefab;
+    public GameObject boxcoinPrefab;
 
     [Header("Spawn Probabilities (%)")]
     [Range(0, 100)] public int obstaclePercent = 25;
     [Range(0, 100)] public int powerUpPercent = 25;
     [Range(0, 100)] public int coinPercent = 40;
+    [Range(0, 100)] public int boxcoinPercent = 15;
 
     public void Populate(bool allowSpawns)
     {
@@ -22,29 +25,43 @@ public class ScriptTileHandler : MonoBehaviour
             if (pt == null) continue;
 
             int roll = Random.Range(1, 101);
+            GameObject prefab = null;
+            float yOffset = 0.6f;
 
-            // 1. Obstacle (Carts sit directly on the floor at yOffset = 0)
-            if (roll <= obstaclePercent && ObstaclePrefab != null && ObstaclePrefab.Length > 0)
+            if (roll <= obstaclePercent &&
+                ObstaclePrefab != null && ObstaclePrefab.Length > 0)
             {
-                Spawn(ObstaclePrefab[Random.Range(0, ObstaclePrefab.Length)], pt, 0f);
+                prefab = ObstaclePrefab[Random.Range(0, ObstaclePrefab.Length)];
+                yOffset = 0f;
             }
-            // 2. Power-Ups (hover at yOffset = 0.6)
-            else if (roll <= (obstaclePercent + powerUpPercent) && PowerUpPrefab != null && PowerUpPrefab.Length > 0)
+            else if (roll <= obstaclePercent + powerUpPercent &&
+                     PowerUpPrefab != null && PowerUpPrefab.Length > 0)
             {
-                Spawn(PowerUpPrefab[Random.Range(0, PowerUpPrefab.Length)], pt, 0.6f);
+                prefab = PowerUpPrefab[Random.Range(0, PowerUpPrefab.Length)];
             }
-            // 3. Coins (hover at yOffset = 0.6)
-            else if (roll <= (obstaclePercent + powerUpPercent + coinPercent) && coinPrefab != null)
+            else if (roll <= obstaclePercent + powerUpPercent + coinPercent &&
+                     coinPrefab != null)
             {
-                Spawn(coinPrefab, pt, 0.6f);
+                prefab = coinPrefab;
             }
+            else if (roll <= obstaclePercent + powerUpPercent + coinPercent + boxcoinPercent &&
+                     boxcoinPrefab != null)
+            {
+                prefab = boxcoinPrefab;
+            }
+
+            if (prefab == null) continue;
+
+            int lane = Random.Range(0, GameConstants.LaneCount);
+            float laneX = GameConstants.LaneToX(lane);
+
+            Vector3 spawnPos = new Vector3(
+                laneX,
+                pt.position.y + yOffset,
+                pt.position.z
+            );
+
+            Instantiate(prefab, spawnPos, pt.rotation, transform);
         }
-    }
-
-    void Spawn(GameObject prefab, Transform pt, float yOffset)
-    {
-        if (prefab == null || pt == null) return;
-        Vector3 spawnPos = pt.position + Vector3.up * yOffset;
-        Instantiate(prefab, spawnPos, pt.rotation, transform);
     }
 }

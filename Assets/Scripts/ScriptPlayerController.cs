@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -16,18 +17,42 @@ public class ScriptPlayerController : MonoBehaviour
     private int currentLane;
     private float targetX;
 
+    [Header("Hit Settings")]
     public float hitCooldown = 0.6f;
     public float hitTimer;
 
-    public float invincibleDuration = 10f, magnetDuration = 10f;
-    public float magnetRadius = 3.5f, magnetPullSpeed = 14f;
-    public float invincibleTimer, magnetTimer;
+    [Header("Power-Up Duration")]
+    public float invincibleDuration = 10f;
+    public float magnetDuration = 10f;
+    public float doubleCoinDuration = 10f;
+
+    [Header("Magnet Settings")]
+    public float magnetRadius = 3.5f;
+    public float magnetPullSpeed = 14f;
+
+    [Header("Power-Up Timers")]
+    public float invincibleTimer;
+    public float magnetTimer;
+    public float doubleCoinTimer;
 
     public bool IsInvincible => invincibleTimer > 0f;
     public bool IsMagnetActive => magnetTimer > 0f;
+    public bool IsDoubleCoinActive => doubleCoinTimer > 0f;
 
-    public void ActivateInvincibility() => invincibleTimer = invincibleDuration;
-    public void ActivateMagnet() => magnetTimer = magnetDuration;
+    public void ActivateInvincibility()
+    {
+        invincibleTimer = invincibleDuration;
+    }
+
+    public void ActivateMagnet()
+    {
+        magnetTimer = magnetDuration;
+    }
+
+    public void ActivateDoubleCoin()
+    {
+        doubleCoinTimer = doubleCoinDuration;
+    }
 
     void Start()
     {
@@ -41,16 +66,25 @@ public class ScriptPlayerController : MonoBehaviour
         HandleLaneInput();
         Move();
 
-        if (invincibleTimer > 0f) invincibleTimer -= Time.deltaTime;
-        if (magnetTimer > 0f) magnetTimer -= Time.deltaTime;
+        if (invincibleTimer > 0f)
+            invincibleTimer -= Time.deltaTime;
+
+        if (magnetTimer > 0f)
+            magnetTimer -= Time.deltaTime;
+
+        if (doubleCoinTimer > 0f)
+            doubleCoinTimer -= Time.deltaTime;
+
         HandleMagnet();
 
-        if (hitTimer > 0f) hitTimer -= Time.deltaTime;
+        if (hitTimer > 0f)
+            hitTimer -= Time.deltaTime;
     }
-    
+
     void HandleMagnet()
     {
         if (magnetTimer <= 0f) return;
+
         foreach (Collider c in Physics.OverlapSphere(transform.position, magnetRadius))
         {
             if (c.CompareTag("Coin"))
@@ -83,17 +117,20 @@ public class ScriptPlayerController : MonoBehaviour
     {
         Vector3 move = Vector3.zero;
 
-        // Run forward
         move.z = forwardSpeed;
 
-        // Lane change left-right
-        float newX = Mathf.MoveTowards(transform.position.x, targetX, laneChangeSpeed * Time.deltaTime);
+        float newX = Mathf.MoveTowards(
+            transform.position.x,
+            targetX,
+            laneChangeSpeed * Time.deltaTime
+        );
+
         move.x = (newX - transform.position.x) / Time.deltaTime;
 
-        // Jump and gravity
         if (controller.isGrounded)
         {
             verticalVelocity = -2f;
+
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W))
             {
                 verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -115,11 +152,12 @@ public class ScriptPlayerController : MonoBehaviour
         {
             if (ScriptGameManager.Instance != null)
             {
-                ScriptGameManager.Instance.AddCoin();
+                int coinAmount = IsDoubleCoinActive ? 2 : 1;
+                ScriptGameManager.Instance.AddCoin(coinAmount);
             }
             else
             {
-                Debug.LogWarning("ScriptGameManager.Instance is null! Make sure ScriptGameManager is in the scene and assigns Instance in Awake().");
+                Debug.LogWarning("ScriptGameManager.Instance is null!");
             }
 
             Destroy(other.gameObject);
@@ -130,11 +168,13 @@ public class ScriptPlayerController : MonoBehaviour
             {
                 p.Apply(this);
             }
+
             Destroy(other.gameObject);
         }
         else if (other.CompareTag("Obstacle"))
         {
             if (IsInvincible || hitTimer > 0f) return;
+
             hitTimer = hitCooldown;
 
             if (ScriptGameManager.Instance != null)
@@ -143,8 +183,18 @@ public class ScriptPlayerController : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("ScriptGameManager.Instance is null when hitting an obstacle!");
+                Debug.LogWarning("ScriptGameManager.Instance is null!");
             }
+        }
+        else if (other.CompareTag("boxcoin"))
+        {
+            if (ScriptGameManager.Instance != null)
+            {
+                int coinAmount = IsDoubleCoinActive ? 20 : 10;
+                ScriptGameManager.Instance.AddCoin(coinAmount);
+            }
+
+            Destroy(other.gameObject);
         }
     }
 }

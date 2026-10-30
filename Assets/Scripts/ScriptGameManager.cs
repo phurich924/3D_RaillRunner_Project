@@ -1,15 +1,15 @@
+
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using TMPro; // Remove if using legacy UI Text
+using TMPro;
 
 public class ScriptGameManager : MonoBehaviour
 {
     public static ScriptGameManager Instance { get; private set; }
 
     [Header("UI References")]
-    public TMP_Text coinText;          // Use 'public Text coinText;' if using legacy UI
-    public GameObject gameOverPanel;   // The UI panel with Retry / Exit buttons
+    public TMP_Text coinText;
+    public GameObject gameOverPanel;
 
     [Header("Player Stats")]
     public int coins = 0;
@@ -23,22 +23,25 @@ public class ScriptGameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
     }
 
     private void Start()
     {
         UpdateCoinUI();
+
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
-            
-        Time.timeScale = 1f; // Ensure game is unpaused on start
+
+        Time.timeScale = 1f;
     }
 
-    public void AddCoin()
+    public void AddCoin(int amount = 1)
     {
         if (isGameOver) return;
-        coins++;
+
+        coins += amount;
         UpdateCoinUI();
     }
 
@@ -47,6 +50,7 @@ public class ScriptGameManager : MonoBehaviour
         if (isGameOver) return;
 
         playerHealth -= damage;
+
         if (playerHealth <= 0)
         {
             GameOver();
@@ -62,23 +66,21 @@ public class ScriptGameManager : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
-        Time.timeScale = 0f; // Freeze game movement
+        Time.timeScale = 0f;
 
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
     }
 
-    // Call this from the "Retry" button OnClick()
     public void RetryGame()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    // Call this from the "Exit to Main Menu" button OnClick()
     public void ExitToMainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu"); // Matches the "MainMenu" scene in your project
+        SceneManager.LoadScene("MainMenu");
     }
 }

@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class ScriptCoin : MonoBehaviour
@@ -10,7 +11,6 @@ public class ScriptCoin : MonoBehaviour
     public float bobSpeed = 2f;
 
     private float baseLocalY;
-    private bool isCollected = false;
 
     void Start()
     {
@@ -19,27 +19,17 @@ public class ScriptCoin : MonoBehaviour
 
     void Update()
     {
-        transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime, Space.Self);
+        transform.Rotate(
+            Vector3.up,
+            rotateSpeed * Time.deltaTime,
+            Space.Self
+        );
 
-        float newY = baseLocalY + Mathf.Sin(Time.time * bobSpeed) * bobHeight;
+        float newY = baseLocalY
+            + Mathf.Sin(Time.time * bobSpeed) * bobHeight;
+
         Vector3 pos = transform.localPosition;
         pos.y = newY;
         transform.localPosition = pos;
-    }
-
-    // This ensures the coin collects itself if the player touches it!
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isCollected) return;
-
-        if (other.CompareTag("Player"))
-        {
-            isCollected = true;
-            if (ScriptGameManager.Instance != null)
-            {
-                ScriptGameManager.Instance.AddCoin();
-            }
-            Destroy(gameObject);
-        }
     }
 }
